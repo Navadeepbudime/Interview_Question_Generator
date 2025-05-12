@@ -24,7 +24,7 @@ transporter.verify((error, success) => {
   }
 });
 
-// Signup Route (unchanged)
+// Signup Route
 router.post('/signup', async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -38,7 +38,7 @@ router.post('/signup', async (req, res) => {
     user = new User({ name, email: normalizedEmail, password });
     await user.save();
 
-    const token = generateToken({ id: user.id, name: user.name });
+    const token = generateToken({ id: user.id, name: user.name, email: user.email });
     res.json({ token });
   } catch (err) {
     console.error('Signup error:', err.message);
@@ -46,7 +46,7 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// Login Route (unchanged)
+// Login Route
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   console.log('Login request received:', { email, password });
@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
     console.log('Password match:', isMatch);
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
-    const token = generateToken({ id: user.id, name: user.name });
+    const token = generateToken({ id: user.id, name: user.name, email: user.email });
     res.json({ token });
   } catch (err) {
     console.error('Login error:', err.message);
@@ -73,7 +73,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Forgot Password Route (unchanged)
+// Forgot Password Route
 router.post('/forgot-password', async (req, res) => {
   const { email } = req.body;
   try {
@@ -125,7 +125,7 @@ router.get('/reset-password/:token', async (req, res) => {
 // POST: Reset the password
 router.post('/reset-password', async (req, res) => {
   const { token, newPassword } = req.body;
-  console.log('Reset password request:', { token, newPassword }); // Debug
+  console.log('Reset password request:', { token, newPassword });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({
@@ -149,7 +149,7 @@ router.post('/reset-password', async (req, res) => {
   }
 });
 
-// Google Login Route (unchanged)
+// Google Login Route
 router.post('/google-login', async (req, res) => {
   const { googleId, email, name } = req.body;
   try {
@@ -163,11 +163,40 @@ router.post('/google-login', async (req, res) => {
       await user.save();
     }
 
-    const token = generateToken({ id: user.id, name: user.name });
+    const token = generateToken({ id: user.id, name: user.name, email: user.email });
     res.json({ token });
   } catch (err) {
     console.error('Google login error:', err.message);
     res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+// Auth Middleware
+const authMiddleware = (req, res, next) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
+// Get user profile (email)
+router.get('/profile', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('email');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({ email: user.email });
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

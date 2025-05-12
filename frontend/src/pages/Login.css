@@ -1,155 +1,166 @@
-/* Login Container */
-.login-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); /* Dark slate gradient */
-    padding: 2rem;
-    font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif; /* Modern font stack */
-  }
-  
-  /* Login Form Wrapper */
-  .login-form-wrapper {
-    background: rgba(255, 255, 255, 0.05); /* Glassmorphism effect */
-    backdrop-filter: blur(10px);
-    border-radius: 1rem;
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  /* Login Title */
-  .login-title {
-    font-size: 2rem; /* 32px */
-    font-weight: 600;
-    color: #f1f5f9; /* Light gray */
-    text-align: center;
-    margin-bottom: 2rem;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    background: linear-gradient(to right, #60a5fa, #3b82f6); /* Gradient text */
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  
-  /* Error Message */
-  .login-error-message {
-    color: #f87171; /* Soft red */
-    background: rgba(248, 113, 113, 0.1);
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    text-align: center;
-    border: 1px solid rgba(248, 113, 113, 0.3);
-    animation: slideIn 0.4s ease-out;
-  }
-  
-  /* Login Form */
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem; /* Increased spacing */
-  }
-  
-  /* Input Fields */
-  .login-input {
-    width: 100%;
-    padding: 0.875rem 1.25rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    color: #e2e8f0; /* Light slate */
-    background: rgba(255, 255, 255, 0.08); /* Subtle glass effect */
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-  }
-  
-  .login-input::placeholder {
-    color: #94a3b8; /* Muted slate */
-    font-weight: 400;
-  }
-  
-  .login-input:focus {
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.2);
-    outline: none;
-  }
-  
-  /* Login Button */
-  .login-button {
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%); /* Blue gradient */
-    color: #ffffff;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 1.125rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-  }
-  
-  .login-button:hover {
-    background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
-    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
-    transform: translateY(-2px); /* Slight lift */
-  }
-  
-  .login-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.6);
-  }
-  
-  .login-button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-  }
-  
-  /* Animations */
-  @keyframes slideIn {
-    from {
+/* CSS Variables for Dark Theme customization */
+:root {
+  --primary-color: #3b82f6; /* Blue for buttons and links */
+  --primary-color-dark: #2563eb; /* Darker blue for hover effects */
+  --error-color: #ff4d4d; /* Red for error messages */
+  --dark-bg: #121212; /* Dark background */
+  --card-bg: #1e1e1e; /* Slightly lighter background for form */
+  --text-color: #e0e0e0; /* Light text color */
+  --white: #ffffff; /* For text and borders */
+  --shadow-color: rgba(0, 0, 0, 0.5); /* Color for shadows */
+}
+
+/* Reset default margin and padding for all elements */
+* {
+  box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--dark-bg); /* Dark background */
+  color: var(--text-color); /* Light text color */
+  animation: fadeIn 1s ease; /* Fade-in effect for body */
+}
+
+/* Keyframes for fading animation */
+@keyframes fadeIn {
+  from {
       opacity: 0;
-      transform: translateY(-15px);
-    }
-    to {
+  }
+  to {
       opacity: 1;
+  }
+}
+
+/* Container for login page */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+/* Wrapper for the login form */
+.login-form-wrapper {
+  background-color: var(--card-bg); /* Background for form */
+  border-radius: 20px; /* Rounder edges */
+  box-shadow: 0 4px 30px var(--shadow-color); /* Shadow around card */
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s ease; /* Transition for scale effect */
+}
+
+/* Scaling effect on hover */
+.login-form-wrapper:hover {
+  transform: scale(1.02); /* Slightly scale the card */
+}
+
+/* Login title */
+.login-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2em;
+  color: var(--primary-color); /* Blue for title */
+  animation: slideIn 0.5s forwards; /* Slide in animation */
+}
+
+/* Keyframes for sliding animation */
+@keyframes slideIn {
+  from {
+      transform: translateY(-20px);
+      opacity: 0;
+  }
+  to {
       transform: translateY(0);
-    }
+      opacity: 1;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 480px) {
-    .login-container {
-      padding: 1rem;
-    }
-  
-    .login-form-wrapper {
-      padding: 1.5rem;
-      max-width: 100%;
-      margin: 0 1rem;
-    }
-  
-    .login-title {
-      font-size: 1.75rem; /* 28px */
-      margin-bottom: 1.5rem;
-    }
-  
-    .login-input {
-      padding: 0.75rem 1rem;
-      font-size: 0.9375rem;
-    }
-  
-    .login-button {
-      padding: 0.875rem;
-      font-size: 1rem;
-    }
+}
+
+/* Error message styling */
+.login-error-message {
+  color: var(--error-color); /* Red color for errors */
+  text-align: center;
+  margin-bottom: 15px;
+  opacity: 0; /* Initial opacity for fade-in */
+  animation: fadeIn 0.5s forwards; /* Fade in for error message */
+}
+
+/* Form styling */
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input field styling */
+.login-input {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 2px solid #444; /* Dark border */
+  border-radius: 4px;
+  background-color: #2c2c2c; /* Background for input */
+  color: var(--text-color); /* Light text color */
+  font-size: 16px;
+  transition: border-color 0.3s; /* Transition for border on focus */
+}
+
+.login-input:focus {
+  border-color: var(--primary-color); /* Change border color on focus */
+  box-shadow: 0 0 5px var(--primary-color); /* Shadow effect on focus */
+  outline: none; /* Remove outline */
+}
+
+/* Button styling */
+.login-button {
+  padding: 12px;
+  background-color: var(--primary-color); /* Button background */
+  color: var(--white); /* White text color */
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Transition effects */
+}
+
+.login-button:hover {
+  background-color: var(--primary-color-dark); /* Darker background on hover */
+  box-shadow: 0 4px 10px var(--shadow-color); /* Shadow effect on hover */
+}
+
+/* Forgot password link styling */
+.forgot-password-link {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: var(--primary-color); /* Blue for link */
+  text-decoration: none;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline; /* Underline when hovering */
+}
+
+/* Google login container */
+.google-login {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Responsive media queries */
+@media (max-width: 600px) {
+  .login-form-wrapper {
+      padding: 30px; /* Smaller padding on small screens */
+      width: 90%; /* Increased width on mobile */
   }
+
+  .login-title {
+      font-size: 1.5em; /* Larger title on mobile */
+  }
+
+  .login-input,
+  .login-button {
+      font-size: 14px; /* Smaller font size for mobile */
+  }
+}
