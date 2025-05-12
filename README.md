@@ -1,5 +1,5 @@
 Download the model from https://drive.google.com/file/d/1mmMLT1GmvKkVPn9Wh2wGhAceXr26-Mao/view?usp=sharing
-After Downloading, add this file in the project folder 
+After Downloading, add this file into the project folder 
 
 HOW TO RUN THIS?
 we require 4 shells to run this reposit
