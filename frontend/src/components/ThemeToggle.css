@@ -1,0 +1,11 @@
+.theme-toggle-btn {
+  @apply fixed top-4 right-4 p-2 rounded-full
+         bg-gray-200 dark:bg-gray-700
+         hover:bg-gray-300 dark:hover:bg-gray-600
+         transition-colors duration-200
+         focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.theme-toggle-icon {
+  @apply w-5 h-5 text-gray-700 dark:text-yellow-300;
+} 

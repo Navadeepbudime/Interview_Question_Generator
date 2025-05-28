@@ -106,26 +106,26 @@ const Feedback = () => {
   };
 
   return (
-    <div className="feedback-container">
+    <div className="fb-page-container">
       <h1>Feedback</h1>
       {submitted ? (
-        <div className="success-message">
+        <div className="fb-success-message">
           Thank you for submitting your feedback! We've sent a confirmation email.
-          <button onClick={handleReset} className="reset-button">
+          <button onClick={handleReset} className="fb-reset-button">
             Submit Another Feedback
           </button>
         </div>
       ) : (
-        <div className="feedback-form">
+        <div className="fb-form">
           <p>We value your input! Please share your thoughts, suggestions, or issues.</p>
-          {error && <div className="error-message">{error}</div>}
-          <div className="star-rating">
+          {error && <div className="fb-error-message">{error}</div>}
+          <div className="fb-star-rating">
             <label>Rate your experience:</label>
-            <div className="stars">
+            <div className="fb-stars">
               {[1, 2, 3, 4, 5].map((star) => (
                 <span
                   key={star}
-                  className={`star ${star <= (hoverRating || rating) ? 'filled' : ''}`}
+                  className={`fb-star ${star <= (hoverRating || rating) ? 'filled' : ''}`}
                   onClick={() => handleStarClick(star)}
                   onMouseEnter={() => handleStarHover(star)}
                   onMouseLeave={handleStarLeave}
@@ -140,12 +140,12 @@ const Feedback = () => {
             onChange={(e) => setFeedback(e.target.value)}
             placeholder="Enter your feedback here..."
             rows="5"
-            className="feedback-textarea"
+            className="fb-textarea"
             disabled={!userEmail}
           />
           <button
             onClick={handleSubmit}
-            className="submit-button"
+            className="fb-submit-button"
             disabled={!feedback.trim() || rating === 0 || !userEmail}
           >
             Submit Feedback

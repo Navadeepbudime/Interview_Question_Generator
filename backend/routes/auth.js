@@ -7,6 +7,19 @@ const generateToken = require('../utils/generateToken');
 const User = require('../models/User');
 require('dotenv').config();
 
+// Activity tracking middleware
+const trackActivity = async (req, res, next) => {
+  try {
+    if (req.user) {
+      await User.findByIdAndUpdate(req.user.id, { lastActive: new Date() });
+    }
+    next();
+  } catch (error) {
+    console.error('Error tracking activity:', error);
+    next();
+  }
+};
+
 // Email transporter setup
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -64,6 +77,11 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     console.log('Password match:', isMatch);
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
+
+    // Update last login and active time
+    user.lastLogin = new Date();
+    user.lastActive = new Date();
+    await user.save();
 
     const token = generateToken({ id: user.id, name: user.name, email: user.email });
     res.json({ token });
@@ -167,6 +185,33 @@ router.post('/google-login', async (req, res) => {
     res.json({ token });
   } catch (err) {
     console.error('Google login error:', err.message);
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+// Admin Login Route
+router.post('/admin-login', async (req, res) => {
+  const { email, password } = req.body;
+  console.log('Admin login request received:', { email });
+  try {
+    if (!email || !password) {
+      return res.status(400).json({ msg: 'Email and password are required' });
+    }
+    const normalizedEmail = email.toLowerCase();
+    const user = await User.findOne({ email: normalizedEmail });
+    if (!user || !user.isAdmin) {
+      console.log('Admin not found or user is not an admin:', normalizedEmail);
+      return res.status(400).json({ msg: 'Invalid credentials' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password match:', isMatch);
+    if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
+
+    const token = generateToken({ id: user.id, name: user.name, email: user.email, isAdmin: true });
+    res.json({ token });
+  } catch (err) {
+    console.error('Admin login error:', err.message);
     res.status(500).json({ msg: 'Server error' });
   }
 });

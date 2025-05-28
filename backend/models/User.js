@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   resetPasswordToken: { // New field for reset token
     type: String,
   },
@@ -25,6 +29,14 @@ const userSchema = new mongoose.Schema({
   },
   googleId: { // New field for Google login
     type: String,
+  },
+  lastActive: {
+    type: Date,
+    default: Date.now,
+  },
+  lastLogin: {
+    type: Date,
+    default: Date.now,
   },
   createdAt: {
     type: Date,

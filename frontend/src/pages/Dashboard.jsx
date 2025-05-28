@@ -271,52 +271,52 @@ const Dashboard = () => {
 
   // Apply the dashboard-dark class to the wrapper div
   return (
-    <div className="dashboard-dark">
-      <div className="dashboard-container">
-        <h1 className="dashboard-title">Welcome, {userName || 'User'}</h1>
-        {error && <p className="error-message">{error}</p>}
+    <div className="user-dashboard-dark">
+      <div className="user-dashboard-container">
+        <h1 className="user-dashboard-title">Welcome, {userName || 'User'}</h1>
+        {error && <p className="user-error-message">{error}</p>}
 
-        <div className="upload-card">
-          <h2 className="section-title">Upload a File</h2>
-          <form onSubmit={handleFileUpload} className="upload-form">
+        <div className="user-upload-card">
+          <h2 className="user-section-title">Upload a File</h2>
+          <form onSubmit={handleFileUpload} className="user-upload-form">
             <input
               type="file"
               onChange={(e) => setFile(e.target.files[0])}
-              className="upload-input"
+              className="user-upload-input"
               accept="application/pdf"
             />
-            <button type="submit" className="upload-button">
+            <button type="submit" className="user-upload-button">
               Upload
             </button>
           </form>
         </div>
 
-        <div className="files-card">
-          <h2 className="section-title">Your Uploaded Files</h2>
+        <div className="user-files-card">
+          <h2 className="user-section-title">Your Uploaded Files</h2>
           {uploadedFiles.length === 0 ? (
-            <p className="no-files">No files uploaded yet.</p>
+            <p className="user-no-files">No files uploaded yet.</p>
           ) : (
-            <ul className="files-list">
+            <ul className="user-files-list">
               {uploadedFiles.map((file) => (
-                <li key={file._id} className="file-item">
-                  <div className="file-info">
+                <li key={file._id} className="user-file-item">
+                  <div className="user-file-info">
                     {isPDF(file.filename) ? (
-                      <FaFilePdf className="file-icon pdf-icon" />
+                      <FaFilePdf className="user-file-icon user-pdf-icon" />
                     ) : (
-                      <FaFile className="file-icon" />
+                      <FaFile className="user-file-icon" />
                     )}
-                    <span className="file-name">
+                    <span className="user-file-name">
                       {file.originalFilename || file.filename}
                     </span>
                   </div>
-                  <div className="file-actions">
+                  <div className="user-file-actions">
                     {isPDF(file.filename) && (
                       <>
                         <a
                           href={`http://localhost:5000/uploads/${file.filename}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="view-pdf-link"
+                          className="user-view-pdf-link"
                         >
                           <FaEye style={{ marginRight: '5px' }} /> View
                         </a>
@@ -325,11 +325,11 @@ const Dashboard = () => {
                           placeholder="Custom PDF name"
                           value={customFileNames[file._id] || ''}
                           onChange={(e) => handleCustomNameChange(file._id, e.target.value)}
-                          className="custom-name-input"
+                          className="user-custom-name-input"
                         />
                         <button
                           onClick={() => handleGenerateQuestions(file._id, file.originalFilename)}
-                          className="generate-button"
+                          className="user-generate-button"
                         >
                           <FaQuestionCircle style={{ marginRight: '5px' }} /> Generate Questions
                         </button>
@@ -337,16 +337,16 @@ const Dashboard = () => {
                     )}
                     <button
                       onClick={() => handleDownloadFile(file._id, file.originalFilename)}
-                      className="download-button"
+                      className="user-download-button"
                     >
                       <FaDownload style={{ marginRight: '5px' }} /> Download
                     </button>
                     <button
                       onClick={() => handleDeleteFile(file._id)}
-                      className="delete-button"
+                      className="user-delete-button"
                       title="Delete file"
                     >
-                      <FaTrash className="delete-icon" />
+                      <FaTrash className="user-delete-icon" />
                     </button>
                   </div>
                 </li>
@@ -355,44 +355,44 @@ const Dashboard = () => {
           )}
         </div>
 
-        <div className="questions-card">
-          <h2 className="section-title">Question History</h2>
+        <div className="user-questions-card">
+          <h2 className="user-section-title">Question History</h2>
           {questionHistory.length === 0 ? (
-            <p className="no-questions">No questions generated yet.</p>
+            <p className="user-no-questions">No questions generated yet.</p>
           ) : (
-            <ul className="questions-list">
+            <ul className="user-questions-list">
               {questionHistory.map((questionSet) => (
-                <li key={questionSet._id} className="question-item">
-                  <div className="question-info">
-                    <span className="question-filename">
+                <li key={questionSet._id} className="user-question-item">
+                  <div className="user-question-info">
+                    <span className="user-question-filename">
                       {questionSet.filename}
-                      <span className="question-badge">{getQuestionCount(questionSet._id)} questions</span>
+                      <span className="user-question-badge">{getQuestionCount(questionSet._id)} questions</span>
                     </span>
-                    <span className="question-date">
+                    <span className="user-question-date">
                       <FaCalendarAlt style={{ marginRight: '5px', fontSize: '0.8rem' }} />
                       {formatDate(questionSet.createdAt)}
                     </span>
                   </div>
-                  <div className="question-actions">
+                  <div className="user-question-actions">
                     <input
                       type="text"
                       placeholder="Custom PDF name"
                       value={customQuestionNames[questionSet._id] || ''}
                       onChange={(e) => handleCustomQuestionNameChange(questionSet._id, e.target.value)}
-                      className="custom-name-input"
+                      className="user-custom-name-input"
                     />
                     <button
                       onClick={() => handleDownloadQuestions(questionSet._id, questionSet.filename)}
-                      className="download-questions-button"
+                      className="user-download-questions-button"
                     >
                       <FaDownload style={{ marginRight: '5px' }} /> Download Questions 
                     </button>
                     <button
                       onClick={() => handleDeleteQuestion(questionSet._id)}
-                      className="delete-button"
+                      className="user-delete-button"
                       title="Delete question set"
                     >
-                      <FaTrash className="delete-icon" />
+                      <FaTrash className="user-delete-icon" />
                     </button>
                   </div>
                 </li>

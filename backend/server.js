@@ -6,9 +6,12 @@ const authRoutes = require('./routes/auth');
 const fileRoutes = require('./routes/file');
 const questionRoutes = require('./routes/question');
 const feedbackRoutes = require('./routes/feedback'); // NEW: Import feedback routes
+const adminRoutes = require('./routes/admin'); // NEW: Import admin routes
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
+const User = require('./models/User');
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 const app = express();
@@ -20,6 +23,25 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
+
+// User authentication and activity tracking middleware
+app.use(async (req, res, next) => {
+  try {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.id);
+      if (user) {
+        req.user = user;
+        // Update last active time
+        await User.findByIdAndUpdate(user.id, { lastActive: new Date() });
+      }
+    }
+    next();
+  } catch (error) {
+    next();
+  }
+});
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
@@ -87,6 +109,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/files', fileRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/feedback', feedbackRoutes); // NEW: Add feedback routes
+app.use('/api/admin', adminRoutes); // NEW: Add admin routes
 
 // Root route
 app.get('/', (req, res) => res.send('Server is running'));

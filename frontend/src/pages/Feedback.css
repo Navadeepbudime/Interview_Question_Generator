@@ -1,133 +1,73 @@
-.feedback-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-  }
-  
-  .feedback-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .star-rating {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .star-rating label {
-    font-weight: bold;
-  }
-  
-  .stars {
-    display: flex;
-    gap: 0.5rem;
-  }
-  
-  .star {
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #ccc;
-  }
-  
-  .star.filled {
-    color: #ffd700;
-  }
-  
-  .feedback-textarea {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-  }
-  
-  .submit-button {
-    padding: 0.5rem 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: fit-content;
-  }
-  
-  .submit-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
-  .reset-button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: fit-content;
-  }
-  
-  .success-message {
-    color: #28a745;
-    font-weight: bold;
-    text-align: center;
-    padding: 1rem;
-    border: 1px solid #28a745;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .error-message {
-    color: #dc3545;
-    font-weight: bold;
-    text-align: center;
-    padding: 1rem;
-    border: 1px solid #dc3545;
-    border-radius: 4px;
-  }
-  
-  /* Dark theme styles */
-  [data-theme="dark"] .feedback-container {
-    color: #ffffff;
-  }
-  
-  [data-theme="dark"] .feedback-textarea {
-    background-color: #333;
-    color: #ffffff;
-    border-color: #555;
-  }
-  
-  [data-theme="dark"] .submit-button {
-    background-color: #0056b3;
-  }
-  
-  [data-theme="dark"] .submit-button:disabled {
-    background-color: #555;
-  }
-  
-  [data-theme="dark"] .reset-button {
-    background-color: #218838;
-  }
-  
-  [data-theme="dark"] .star {
-    color: #666;
-  }
-  
-  [data-theme="dark"] .star.filled {
-    color: #ffcc00;
-  }
-  
-  [data-theme="dark"] .success-message {
-    color: #28a745;
-    border-color: #28a745;
-  }
-  
-  [data-theme="dark"] .error-message {
-    color: #dc3545;
-    border-color: #dc3545;
-  }
+.fb-page-container {
+  @apply min-h-screen bg-gray-50 dark:bg-gray-900 p-6;
+}
+
+.fb-page-container h1 {
+  @apply text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center;
+}
+
+.fb-form {
+  @apply max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-8;
+}
+
+.fb-form p {
+  @apply text-gray-600 dark:text-gray-300 mb-6 text-center;
+}
+
+.fb-error-message {
+  @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4;
+}
+
+.fb-success-message {
+  @apply max-w-2xl mx-auto bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-300
+         px-6 py-8 rounded-lg text-center space-y-4;
+}
+
+.fb-reset-button {
+  @apply mt-4 bg-green-600 hover:bg-green-700 text-white font-medium
+         py-2 px-6 rounded-md transition-colors duration-200;
+}
+
+/* Star Rating */
+.fb-star-rating {
+  @apply mb-6;
+}
+
+.fb-star-rating label {
+  @apply block text-gray-700 dark:text-gray-300 mb-2;
+}
+
+.fb-stars {
+  @apply flex justify-center gap-2;
+}
+
+.fb-star {
+  @apply text-4xl cursor-pointer text-gray-300 dark:text-gray-600
+         transition-colors duration-200;
+}
+
+.fb-star.filled {
+  @apply text-yellow-400;
+}
+
+/* Feedback Textarea */
+.fb-textarea {
+  @apply w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600
+         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+         focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+         resize-none mb-6;
+}
+
+.fb-textarea:disabled {
+  @apply bg-gray-100 dark:bg-gray-600 cursor-not-allowed;
+}
+
+/* Submit Button */
+.fb-submit-button {
+  @apply w-full bg-blue-600 hover:bg-blue-700 text-white font-medium
+         py-3 px-6 rounded-md transition-colors duration-200;
+}
+
+.fb-submit-button:disabled {
+  @apply bg-gray-400 cursor-not-allowed;
+} 

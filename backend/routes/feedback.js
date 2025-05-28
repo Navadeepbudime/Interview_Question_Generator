@@ -28,8 +28,8 @@ router.post('/', authMiddleware, async (req, res) => {
 
   try {
     const newFeedback = new Feedback({
-      userId: req.user.id,
-      feedback,
+      user: req.user.id,
+      comment: feedback,
       rating,
     });
     await newFeedback.save();
@@ -37,6 +37,19 @@ router.post('/', authMiddleware, async (req, res) => {
   } catch (error) {
     console.error('Error saving feedback:', error);
     res.status(500).json({ message: 'Failed to submit feedback' });
+  }
+});
+
+// Get all feedbacks (for testing)
+router.get('/', async (req, res) => {
+  try {
+    const feedbacks = await Feedback.find()
+      .populate('user', 'name email')
+      .sort({ createdAt: -1 });
+    res.json(feedbacks);
+  } catch (error) {
+    console.error('Error fetching feedbacks:', error);
+    res.status(500).json({ message: 'Failed to fetch feedbacks' });
   }
 });
 
