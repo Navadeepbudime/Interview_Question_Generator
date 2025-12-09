@@ -22,7 +22,8 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
+// Serve uploaded files; use lowercase to match the actual directory name
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // User authentication and activity tracking middleware
 app.use(async (req, res, next) => {
